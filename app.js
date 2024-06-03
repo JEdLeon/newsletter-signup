@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
@@ -36,7 +37,7 @@ app.route(['/', '/index', '/signup'])
         };
 
         const run = async function () {
-            const chimpRes = await mailchimp.lists.batchListMembers(`e0d6b1aef2`, data);
+            const chimpRes = await mailchimp.lists.batchListMembers(process.env.ID, data);
             if (chimpRes.errors != []){
                 res.sendFile(`${__dirname}/succes.html`);
             }
