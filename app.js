@@ -46,7 +46,6 @@ app.route(['/', '/index', '/signup'])
             // }
             mailchimp.lists.batchListMembers(process.env.ID, data)
                 .then((result) => {
-                    console.log('this response:', result)
                     res.sendFile(`${__dirname}/succes.html`)
                 })
                 .catch((err) => {
