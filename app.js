@@ -7,8 +7,9 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.listen(process.env.PORT || 3301, function () {console.log('Server Port 3301 On-Line')});
+
 mailchimp.setConfig({
-    apiKey: 'fcffbedf580f72c9bcff6c50128b2a44-us11',
+    apiKey: process.env.KEY,
     server: 'us11'
 });
 
@@ -35,8 +36,8 @@ app.route(['/', '/index', '/signup'])
         };
 
         const run = async function () {
-            const chimpRes = await mailchimp.lists.batchListMembers('e0d6b1aef2', data);
-            if (chimpRes.errors !== []){
+            const chimpRes = await mailchimp.lists.batchListMembers(`e0d6b1aef2`, data);
+            if (chimpRes.errors != []){
                 res.sendFile(`${__dirname}/succes.html`);
             }
             else {
@@ -46,12 +47,6 @@ app.route(['/', '/index', '/signup'])
         run();
     });
 
-app.post('/succes', function (req, res) {
+app.post(['/succes', '/failure'], function (req, res) {
     res.redirect(`/index`);
 });
-app.post('/failure', function (req, res) {
-    res.redirect(`/index`);
-});
-
-//API KEY: fcffbedf580f72c9bcff6c50128b2a44-us11
-//Audience ID: e0d6b1aef2
